@@ -7,19 +7,11 @@
 // Execute `rustlings hint move_semantics2` or use the `hint` watch subcommand
 // for a hint.
 
-<<<<<<< HEAD
-=======
-// I AM NOT DONE
->>>>>>> 24007d7b5f816a54e94386df6064a182a1cb66bc
 
 fn main() {
     let vec0 = Vec::new();
 
-<<<<<<< HEAD
     let mut vec1 = fill_vec(vec0.clone());
-=======
-    let mut vec1 = fill_vec(vec0);
->>>>>>> 24007d7b5f816a54e94386df6064a182a1cb66bc
 
     println!("{} has length {}, with contents: `{:?}`", "vec0", vec0.len(), vec0);
 

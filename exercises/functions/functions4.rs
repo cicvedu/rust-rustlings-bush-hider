@@ -8,22 +8,14 @@
 // Execute `rustlings hint functions4` or use the `hint` watch subcommand for a
 // hint.
 
-<<<<<<< HEAD
 // ## function return
-=======
-// I AM NOT DONE
->>>>>>> 24007d7b5f816a54e94386df6064a182a1cb66bc
 
 fn main() {
     let original_price = 51;
     println!("Your sale price is {}", sale_price(original_price));
 }
 
-<<<<<<< HEAD
 fn sale_price(price: i32) -> i32{
-=======
-fn sale_price(price: i32) -> {
->>>>>>> 24007d7b5f816a54e94386df6064a182a1cb66bc
     if is_even(price) {
         price - 10
     } else {
