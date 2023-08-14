@@ -7,19 +7,20 @@
 // Execute `rustlings hint modules2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## mod : use 声明
+// use 声明可以将一个完整的路径绑定到一个新的名字，从而更容易访问。
 
 mod delicious_snacks {
     // TODO: Fix these use statements
-    use self::fruits::PEAR as ???
-    use self::veggies::CUCUMBER as ???
+    pub use self::fruits::PEAR as fruit;
+    pub use self::veggies::CUCUMBER as veggie;
 
-    mod fruits {
+    pub mod fruits {
         pub const PEAR: &'static str = "Pear";
         pub const APPLE: &'static str = "Apple";
     }
 
-    mod veggies {
+    pub mod veggies {
         pub const CUCUMBER: &'static str = "Cucumber";
         pub const CARROT: &'static str = "Carrot";
     }
