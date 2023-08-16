@@ -19,7 +19,10 @@
 // Execute `rustlings hint errors2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## ?? match Result
+// parse() 方法返回 Result 类型，因为它不是总能把字符串解析成指定的类型，Result 表示可能的失败
+// 通过 match 匹配 parse() 方法的 Result : Ok or Err，并进行下一步的处理
+
 
 use std::num::ParseIntError;
 
@@ -27,8 +30,23 @@ pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
     let processing_fee = 1;
     let cost_per_item = 5;
     let qty = item_quantity.parse::<i32>();
+    // 方法一：使用 match 匹配 parse 结果: Ok or Err
+    match qty {
+        Ok(v) => Ok(v * cost_per_item + processing_fee),
+        Err(e) => Err(e),
+    }
 
-    Ok(qty * cost_per_item + processing_fee)
+    // 方法二：使用 if let 语句尝试解析 Result
+    // if let Ok(v) = qty {
+    //    Ok(v * cost_per_item + processing_fee)
+    //}
+    //else {
+    //    qty // Err(e)
+    //}
+
+    // 方法三：更简洁地使用`？`进行错误处理：成功则解释为 Ok，否则返回默认的 Err
+    // let qty = item_quantity.parse::<i32>()?; // 解释成功，则 qty 为 i32
+    // Ok(qty * cost_per_item + processing_fee)
 }
 
 #[cfg(test)]

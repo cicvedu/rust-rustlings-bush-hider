@@ -9,14 +9,18 @@
 // Execute `rustlings hint errors1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## Result 是 Option 类型的更丰富的版本，描述的是可能的错误而不是可能的不存在。
+// Result<T，E> 可以有两个结果的其中一个:
+// Ok<T>：找到 T 元素; Err<E>：找到 E 元素，E 即表示错误的类型。
 
-pub fn generate_nametag_text(name: String) -> Option<String> {
+
+
+pub fn generate_nametag_text(name: String) -> Result<String,String> {
     if name.is_empty() {
         // Empty names aren't allowed.
-        None
+        Err("`name` was empty; it must be nonempty.".into())
     } else {
-        Some(format!("Hi! My name is {}", name))
+        Ok(format!("Hi! My name is {}", name))
     }
 }
 

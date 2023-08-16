@@ -15,7 +15,7 @@ fn trim_me(input: &str) -> String {
 fn compose_me(input: &str) -> String {
     // TODO: Add " world!" to the string! 
     format!("{} {}", input, "world!") // format宏第一个参数只接受 &str
-    // string.push_str("");
+    // string.push_str(""); //as_str()
 }
 
 fn replace_me(input: &str) -> String {

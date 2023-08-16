@@ -9,7 +9,8 @@
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## ?? Result : my error type ++
+// ## 根据返回的自定义错误类型执行下一步操作
 
 use std::num::ParseIntError;
 
@@ -26,13 +27,27 @@ impl ParsePosNonzeroError {
     }
     // TODO: add another error conversion function here.
     // fn from_parseint...
+    fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError{
+        ParsePosNonzeroError::ParseInt(err)
+    }
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
+    // let x: i64 = s.parse().unwrap(); // ## parse.unwrap()，当 parse 返回错误时 panic
+    // PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
+    let x = s.parse::<i64>()?;
     PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
+}
+
+// ## ?? impl From<>
+// the trait `From<ParseIntError>` is implemented for `ParsePosNonzeroError`
+
+impl From<ParseIntError> for ParsePosNonzeroError{
+    fn from(err:ParseIntError)->Self {
+        ParsePosNonzeroError::ParseInt(err)
+    }
 }
 
 // Don't change anything below this line.

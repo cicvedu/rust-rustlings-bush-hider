@@ -3,7 +3,7 @@
 // Execute `rustlings hint iterators4` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## reduce & flod : without loops
 
 pub fn factorial(num: u64) -> u64 {
     // Complete this function to return the factorial of num
@@ -15,7 +15,20 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+
+    // recursion
+    // match num {
+    //    0 | 1 => 1,
+    //    _ => num * factorial( num - 1 ),
+    //}
+
+    // (1 .. num + 1) : like a iter()
+    // ## use reduce : '聚合' 相同类型的数值
+    (1 .. num + 1).reduce(|acc, x| acc * x).unwrap_or(1) // ## unwrap_or(x) : 解析 None 为 x
+    // ## another : use flod : 初始化一个结果，并在遍历中进行 '聚合' 逻辑
+    // (1 .. num + 1).fold(1, |acc, x| acc * x) // firstly, acc = 1; in iter(for each x), acc *= x;
 }
+
 
 #[cfg(test)]
 mod tests {

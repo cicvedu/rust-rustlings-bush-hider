@@ -11,7 +11,7 @@
 // Execute `rustlings hint iterators5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## ?? use filter/reduce/count/fold in iter
 
 use std::collections::HashMap;
 
@@ -35,7 +35,12 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // map is a hashmap with String keys and Progress values.
     // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+    // map.iter().filter(|x| x.1 == &value).count() // ## iter().count() // reduce、flod、count 都是把 iter 中的元素'聚合'起来
+    // ## another: use fold
+    // map.iter().fold(0, |acc, (_, v)| { if v == &value {acc + 1} else {acc}})
+    // firstly, acc = 0; in iter for each (_, v), acc +=1 or not change;
+    
+    map.iter().filter(|(_, v)| v == &&value ).fold(0,|acc,x| acc+1)
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -54,7 +59,15 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
     //     { "variables2": Complete, ... }, ... ]
-    todo!();
+
+    // 方法一：通过 map 对每一组 HashMap 进行 count_iterator
+    // collection.iter()
+    //     .map(|x| x.iter().filter(|x| x.1 == &value).count())
+    //     .sum()
+    collection.iter().map(|x| count_iterator(&x,value)).sum()
+
+    // 方法二：用 fold 表达逻辑
+    // collection.iter().fold(0, |acc,x| acc + count_iterator(&x,value))
 }
 
 #[cfg(test)]

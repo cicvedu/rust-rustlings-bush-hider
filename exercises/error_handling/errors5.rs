@@ -22,17 +22,26 @@
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// ## ?? Result : my error type ++
+// ## conditional match 按条件进行匹配 match value{ x if x < 0 => {}}
+// ## dyn 关键字，函数返回
+// ## all errorsimplement the `error::Error` trait : Box<dyn error::Error> 捕获所有错误类型
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+fn main() -> Result<(), Box<dyn error::Error>> { 
+    // 使用 dyn 关键字返回特征对象, 当函数返回某种特征的实现时
     let pretend_user_input = "42";
+    // There are two different possible `Result` types produced within `main()`, which are
+    // propagated using `?` operators. How do we declare a return type from `main()` that allows both?
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);
+    // Under the hood, the `?` operator calls `From::from` on the error value to convert it to a boxed
+    // trait object, a `Box<dyn error::Error>`. This boxed trait object is polymorphic, and since all
+    // errors implement the `error::Error` trait, we can capture lots of different errors in one "Box" object.
     Ok(())
 }
 
