@@ -40,10 +40,60 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+// ## ?? split string and parse
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        // 1. If the length of the provided string is 0
+        if s.is_empty() {
+            return Person::default();
+        }
+        // 2. Split the given string on the commas present in it.
+        // ## string split : 字符串截取
+        // let v: Vec<&str> = s.split(",").collect();
+        // if v.len() != 2 {
+        //    return Default::default();
+        // }
+        // let name = &v[0];
+        // let age = &v[1];
+        // if name.is_empty() {
+        //     return Default::default();
+        // }
+
+        // let age: usize = match age.parse() {
+        //     Ok(age) => age,
+        //     Err(..) => return Default::default(),
+        // }; //这里用 match 更合理，可以顺便在正常情况下对 age 完成赋值; 
+
+        let mut name:String = Person::default().name;
+        let mut age:usize = Person::default().age;
+
+        let mut iter = s.split(',');
+        // 3. & 4. If the name is empty, then return the default of Person.
+        if let Some(name_str) = iter.next(){
+            if name_str.is_empty(){
+                return Person::default();
+            }
+            name = name_str.to_string();
+        }
+        // 5. arse another into a `usize` as the age.
+        if let Some(age_str) = iter.next(){
+            let age_parse = age_str.parse::<usize>();
+            if let Ok(age_) = age_parse{
+                age = age_;
+            }
+            else{
+                return Person::default();
+            }
+        }
+        else{
+            return Person::default();
+        }
+        // 6. more than 2 elements after split
+        if let Some(x) = iter.next() {
+            return Person::default();
+        }
+        Person { name, age }
     }
 }
 

@@ -5,18 +5,19 @@
 // You should not modify any existing code. All you need to do is add two line of attributes.
 
 
-// I AM NOT DONE
+// drive : extern & link
 
 
 extern {
     fn my_demo_function(a:u32) -> u32;
+    #[link_name = "my_demo_function"] // #[link_name = ""]: 表示实际链接的函数名称
     fn my_demo_function_alias(a:u32) -> u32;
 }
 
 
 
-
 mod Foo{
+    #[no_mangle] // #[no_mangle]: 表示生成的函数名经过编译后依然为 my_demo_function
     fn my_demo_function(a:u32) -> u32 {a}
 }
 

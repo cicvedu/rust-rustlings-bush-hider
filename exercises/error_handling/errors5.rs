@@ -33,7 +33,14 @@ use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
 fn main() -> Result<(), Box<dyn error::Error>> { 
-    // 使用 dyn 关键字返回特征对象, 当函数返回某种特征的实现时
+    // ## ?? 使用 dyn 关键字返回特征对象, 当函数返回某种特征的实现时
+    // `Box<dyn Error>` implements `From<&'_ str>`. This means that if
+    // you want to return a string error message, you can do so via just using
+    // return `Err("my error message".into())`.
+    // 一种做法是，用一个更大的 enum MyErrors 来包含两种 Error Type（如 ParseIntError）,
+    //  这需要通过 map_err 或 impl From<ParseIntError> for MyErrors，见 from_str.rs;
+    // 另一种做法，即此处的做法，是通过 Box<dyn error::Error> 返回一个实现了 Error Trait（接口）的特征对象 error;
+
     let pretend_user_input = "42";
     // There are two different possible `Result` types produced within `main()`, which are
     // propagated using `?` operators. How do we declare a return type from `main()` that allows both?

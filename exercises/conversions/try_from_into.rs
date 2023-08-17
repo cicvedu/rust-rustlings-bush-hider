@@ -27,7 +27,7 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
+// ## ?? try_into & try_from
 
 // Your task is to complete this implementation and return an Ok result of inner
 // type Color. You need to create an implementation for a tuple of three
@@ -38,9 +38,33 @@ enum IntoColorError {
 // that correct RGB color values must be integers in the 0..=255 range.
 
 // Tuple implementation
+
+fn check_num(num:i16) -> Result<u8,IntoColorError> {
+    if let Ok(u) = u8::try_from(num){
+        Ok(u)
+    }
+    else{
+        Err(IntoColorError::IntConversion)
+    }
+}
+
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        // trick: 检查是否在 0-255，可以通过 convert to u8 来进行
+        let (red_i,green_i,blue_i) = tuple;
+        let (red, green, blue) = (check_num(red_i)?, check_num(green_i)?, check_num(blue_i)?);
+        Ok(Color{red, green, blue})
+
+        // ## use try_from().or(myerr)?
+        //    like unwrap_or(x) parse None to x in option
+        //    like map_err(myerr)? parse panic to myerr in result
+
+        // try_from() parse err to myerr
+        // let (red, green, blue) = (u8::try_from(red_i).or(Err(IntoColorError::IntConversion))?,
+        //                           u8::try_from(green_i).or(Err(IntoColorError::IntConversion))?,
+        //                           u8::try_from(blue_i).or(Err(IntoColorError::IntConversion))?);
+        // Ok(Color{red, green, blue})
     }
 }
 
@@ -48,6 +72,10 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let [r, g, b] = arr;
+        (r, g, b).try_into() // ?? why this is simple? because it use TryFrom<(i16, i16, i16)> for Color impl before
+        // let (red, green, blue) = (check_num(r)?, check_num(g)?, check_num(b)?);
+        // Ok(Color{red, green, blue})
     }
 }
 
@@ -55,6 +83,12 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        match slice { // 检查能否将数组切片解释为 [r, g, b]，这包含有对数组长度的检查：// ## 对数组切片的 match / 尝试解释
+            // here get array type [i16; 3], so we can use TryFrom<[i16; 3]> for Color impl before
+            //[r, g, b] => Color::try_from((*r, *g, *b)), 
+            [r, g, b] => (*r, *g, *b).try_into(),
+            _ => Err(IntoColorError::BadLen)?
+        }
     }
 }
 
